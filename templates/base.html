@@ -1,0 +1,234 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}Template App CMS{% endblock %}</title>
+
+    <!-- AdminLTE CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css" />
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        crossorigin="anonymous" />
+
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700&display=swap" />
+
+    <!-- Favicon -->
+    <link rel="icon" href="https://twitchvideostorage.s3.amazonaws.com/twitch/images/2ba-bccee5e44dd0.png" />
+
+    <style>
+        :root {
+            --accent:       #6366f1;
+            --accent-hover: #4f52d9;
+            --accent-2:     #10b981;
+            --danger:       #ef4444;
+            --warning:      #f59e0b;
+            --bg-body:      #0d1117;
+            --bg-sidebar:   #161b22;
+            --bg-card:      #1c2128;
+            --bg-darker:    #0d1117;
+            --text-main:    #e6edf3;
+            --text-muted:   #8b949e;
+            --border-color: #30363d;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            font-size: 14.5px;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+        }
+
+        .wrapper, .main-header, .main-footer {
+            background-color: var(--bg-body);
+        }
+
+        .main-sidebar {
+            background-color: var(--bg-sidebar) !important;
+            border-right: 1px solid var(--border-color);
+        }
+
+        /* ── Page header ───────────────────────────── */
+        .content-header {
+            padding: 16px 24px 8px;
+        }
+
+        .content-header h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-main);
+            letter-spacing: -0.3px;
+        }
+
+        .breadcrumb-item a { color: var(--accent); }
+        .breadcrumb-item.active { color: var(--text-muted); }
+        .breadcrumb { background: transparent; padding: 0; margin: 0; }
+
+        /* ── Cards ─────────────────────────────────── */
+        .card {
+            background-color: var(--bg-card);
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.35);
+        }
+
+        .card-header {
+            background-color: transparent;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        /* ── Stat card accent strips ────────────────── */
+        .stat-card { border-top: 3px solid var(--accent); }
+        .stat-card.green  { border-top-color: var(--accent-2); }
+        .stat-card.yellow { border-top-color: var(--warning); }
+        .stat-card.red    { border-top-color: var(--danger); }
+
+        .stat-icon {
+            width: 48px; height: 48px;
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.25rem;
+        }
+        .stat-icon.indigo { background: rgba(99,102,241,.15); color: var(--accent); }
+        .stat-icon.green  { background: rgba(16,185,129,.15); color: var(--accent-2); }
+        .stat-icon.yellow { background: rgba(245,158,11,.15);  color: var(--warning); }
+        .stat-icon.red    { background: rgba(239,68,68,.15);   color: var(--danger); }
+
+        /* ── Tables ─────────────────────────────────── */
+        .table { color: var(--text-main); }
+        .table th, .table td { vertical-align: middle; border-color: var(--border-color); }
+        .table thead th {
+            background-color: var(--bg-darker);
+            color: var(--text-muted);
+            border-color: var(--border-color);
+            font-weight: 600;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: .6px;
+        }
+        .table-hover tbody tr:hover {
+            background-color: rgba(99,102,241,0.06);
+            color: var(--text-main);
+        }
+
+        /* ── Buttons ────────────────────────────────── */
+        .btn-primary {
+            background-color: var(--accent);
+            border-color: var(--accent);
+            color: #fff;
+            font-weight: 500;
+            transition: all .25s;
+        }
+        .btn-primary:hover, .btn-primary:focus {
+            background-color: var(--accent-hover);
+            border-color: var(--accent-hover);
+            box-shadow: 0 4px 14px rgba(99,102,241,0.4);
+            transform: translateY(-1px);
+        }
+        .btn-success {
+            background-color: var(--accent-2);
+            border-color: var(--accent-2);
+            transition: all .25s;
+        }
+        .btn-success:hover { filter: brightness(1.1); transform: translateY(-1px); }
+        .btn-danger {
+            background-color: var(--danger);
+            border-color: var(--danger);
+            transition: all .25s;
+        }
+        .btn-danger:hover { filter: brightness(1.1); transform: translateY(-1px); }
+
+        /* ── Forms ──────────────────────────────────── */
+        .form-control {
+            background-color: var(--bg-darker);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            border-radius: 8px;
+            transition: border-color .2s, box-shadow .2s;
+        }
+        .form-control:focus {
+            background-color: var(--bg-card);
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(99,102,241,0.2);
+            color: var(--text-main);
+        }
+        .form-control::placeholder { color: var(--text-muted); }
+
+        /* ── Badges ─────────────────────────────────── */
+        .badge-success { background-color: rgba(16,185,129,.2); color: var(--accent-2); border: 1px solid rgba(16,185,129,.3); }
+        .badge-danger  { background-color: rgba(239,68,68,.2);  color: var(--danger);   border: 1px solid rgba(239,68,68,.3); }
+
+        /* ── Alerts ─────────────────────────────────── */
+        .alert-success { background: rgba(16,185,129,.1); border-color: var(--accent-2); color: var(--accent-2); }
+        .alert-danger  { background: rgba(239,68,68,.1);  border-color: var(--danger);   color: var(--danger); }
+
+        /* ── Pagination ─────────────────────────────── */
+        .page-item.active .page-link { background-color: var(--accent); border-color: var(--accent); }
+        .page-link {
+            background-color: var(--bg-card);
+            border-color: var(--border-color);
+            color: var(--text-main);
+        }
+        .page-link:hover { background-color: var(--bg-darker); border-color: var(--accent); color: var(--accent); }
+
+        /* ── Content wrapper ────────────────────────── */
+        .content-wrapper { background-color: var(--bg-body); }
+    </style>
+
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed">
+    <div class="wrapper">
+
+        <!-- Header & Sidebar -->
+        {% include 'includes/header.html' %}
+        {% include 'includes/sidebar.html' %}
+
+        <!-- Content Wrapper -->
+        <div class="content-wrapper">
+            <!-- Page Header -->
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2 align-items-center">
+                        <div class="col-sm-6">
+                            <h1 class="m-0">{% block page_header %}{% endblock %}</h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right bg-transparent p-0 m-0">
+                                {% block breadcrumbs %}
+                                <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                                <li class="breadcrumb-item active">{% block breadcrumb_active %}{% endblock %}</li>
+                                {% endblock %}
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <section class="content">
+                <div class="container-fluid">
+                    {% block content %}{% endblock %}
+                </div>
+            </section>
+        </div>
+
+        <!-- Footer -->
+        {% include 'includes/footer.html' %}
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+
+</html>

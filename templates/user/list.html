@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block title %}User List{% endblock %}
+{% block page_header %}Users{% endblock %}
+{% block breadcrumb_active %}Users{% endblock %}
+
+{% block content %}
+
+<!-- Flash Messages -->
+{% if messages %}
+<div class="mb-3">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<!-- User List -->
+<div class="card shadow-sm border-0">
+    <div class="card-header bg-white border-bottom">
+        <div class="d-flex justify-content-between align-items-center">
+            <h6 class="mb-0 font-weight-bold"></h6>
+            <a href="{% url 'addUser' %}" class="btn btn-danger btn-sm">
+                <i class="fas fa-user-plus mr-1"></i> Add User
+            </a>
+        </div>
+    </div>
+
+    <div class="card-body p-0" style="max-height: 65vh; overflow-y: auto;">
+        <table class="table table-hover table-sm text-nowrap align-middle mb-0">
+            <thead class="thead-dark position-sticky" style="top: 0;">
+                <tr>
+                    <th>User Name</th>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    <th>Super User</th>
+                    <th>Staff User</th>
+                    <th>Deleted At</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for usr in users %}
+                <tr>
+                    <td class="fw-bold"><strong>{{ usr.username }}</strong></td>
+                    <td>{{ usr.first_name }} {{ usr.last_name }}</td>
+                    <td class="small">{{ usr.email }}</td>
+                    <td>
+                        {% if usr.is_superuser %}
+                        <span class="badge badge-success">Yes</span>
+                        {% else %}
+                        <span class="badge badge-secondary">No</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if usr.is_staff %}
+                        <span class="badge badge-info">Yes</span>
+                        {% else %}
+                        <span class="badge badge-secondary">No</span>
+                        {% endif %}
+                    </td>
+                    <td class="small text-muted">{{ usr.deleted_at|default:"-" }}</td>
+                    <td class="text-center">
+                        {% if usr.deleted_at %}
+                        <a href="{% url 'restoreUser' usr.pk %}" class="btn btn-sm btn-outline-primary mr-1"
+                            title="Restore">
+                            <i class="fas fa-undo"></i>
+                        </a>
+                        {% else %}
+                        <a href="{% url 'updateUser' usr.pk %}" class="btn btn-sm btn-outline-info mr-1" title="Edit">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <a href="{% url 'deleteUser' usr.pk %}" class="btn btn-sm btn-outline-danger" title="Delete">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7" class="text-center text-muted py-4">No users found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

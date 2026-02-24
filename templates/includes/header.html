@@ -1,0 +1,45 @@
+<!-- includes/header.html -->
+<nav class="main-header navbar navbar-expand" style="background-color:#161b22; border-bottom:1px solid #30363d; height:54px;">
+    <!-- Left -->
+    <ul class="navbar-nav align-items-center">
+        <li class="nav-item">
+            <a class="nav-link px-3" data-widget="pushmenu" href="#" role="button"
+               style="color:#8b949e; font-size:16px; transition:color .2s;">
+                <i class="fas fa-bars"></i>
+            </a>
+        </li>
+        <li class="nav-item d-none d-sm-flex align-items-center">
+            <a href="{% url 'dashboard' %}" class="nav-link" style="color:#8b949e; font-size:13px; font-weight:500;">
+                <i class="fas fa-home mr-1"></i> Home
+            </a>
+        </li>
+    </ul>
+
+    <!-- Right -->
+    <ul class="navbar-nav ml-auto align-items-center pr-2">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#"
+               id="userDropdown" role="button" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false"
+               style="color:#e6edf3; gap:8px;">
+                <span class="d-flex align-items-center justify-content-center"
+                      style="width:30px;height:30px;border-radius:50%;background:#6366f1;font-size:13px;font-weight:700;color:#fff;flex-shrink:0;">
+                    {{ request.user.username|first|upper }}
+                </span>
+                <span class="d-none d-md-inline" style="font-size:13.5px;font-weight:500;">{{ request.user.username }}</span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right shadow"
+                 style="background:#1c2128; border:1px solid #30363d; border-radius:10px; min-width:200px; padding:6px;"
+                 aria-labelledby="userDropdown">
+                <div class="px-3 py-2 mb-1" style="border-bottom:1px solid #30363d;">
+                    <p class="mb-0" style="font-size:13px;font-weight:600;color:#e6edf3;">{{ request.user.username }}</p>
+                    <small style="color:#8b949e;">Joined {{ request.user.date_joined|date:"M Y" }}</small>
+                </div>
+                <a href="{% url 'log_out' %}" class="dropdown-item d-flex align-items-center"
+                   style="color:#e6edf3; font-size:13px; border-radius:7px; padding:8px 12px; gap:8px;">
+                    <i class="fas fa-sign-out-alt" style="color:#ef4444; width:16px;"></i> Sign out
+                </a>
+            </div>
+        </li>
+    </ul>
+</nav>
